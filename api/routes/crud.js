@@ -28,8 +28,10 @@ const jsonCrud = (app, fs) => {
             if (err) {
                 throw err;
             }
-
-            res.send(JSON.parse(data));
+            let jsonDataset = JSON.parse(data)
+            let keys = Object.keys(jsonDataset);
+            let randomNum = keys[Math.floor(keys.length*Math.random())]
+            res.send(jsonDataset[randomNum]);
         });
     });
 }
