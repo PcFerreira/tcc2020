@@ -1,13 +1,13 @@
 const express = require('express');
-
 const bodyParser = require('body-parser');
-
 const apiMetrics = require('prometheus-api-metrics');
-
+const morgan = require('morgan')
 
 const app = express();
 
 const fs = require('fs');
+
+app.use(morgan('combined'))
 
 app.use(apiMetrics());
 
