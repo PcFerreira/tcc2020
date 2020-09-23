@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const apiMetrics = require('prometheus-api-metrics');
+const promMid = require('express-prometheus-middleware');
 const morgan = require('morgan')
 
 const app = express();
@@ -9,7 +10,13 @@ const fs = require('fs');
 
 app.use(morgan('combined'))
 
-app.use(apiMetrics());
+//app.use(apiMetrics());
+
+app.use(promMid({
+    metricsPath: '/metrics',
+    collectDefaultMetrics: true,
+    requestDurationBuckets: [0.1, 0.5, 1, 1.5],
+}));
 
 app.use(bodyParser.json());
 
