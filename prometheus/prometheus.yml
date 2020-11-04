@@ -26,9 +26,14 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: 'api-tcc'
+  - job_name: 'api-tcc-aws-docker'
          # metrics_path defaults to '/metrics'
          # scheme defaults to 'http'.
-
     static_configs:
-      - targets: ['192.168.0.102:3500']
+      - targets: ['ec2co-ecsel-1s8ick51jmb7a-712014800.us-east-2.elb.amazonaws.com:3000']
+
+   - job_name: 'api-tcc-azure-docker'
+         # metrics_path defaults to '/metrics'
+         # scheme defaults to 'http'.
+    static_configs:
+      - targets: ['apitcc.eastus.azurecontainer.io:3000']

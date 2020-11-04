@@ -24,7 +24,7 @@ const jsonCrud = (app, fs) => {
     };
 
     app.get('/data', (req, res) => {
-        fs.readFile(datasetsPath, 'utf8', (err, data) => {
+        readFile(datasetsPath, 'utf8', (err, data) => {
             if (err) {
                 throw err;
             }
@@ -34,5 +34,44 @@ const jsonCrud = (app, fs) => {
             res.send(jsonDataset[randomNum]);
         });
     });
+
+    app.post('/data', (req, res) => {
+        readFile(data => {
+            const newKey = Object.keys(data).length + 1;
+
+            data[newKey.toString()] = req.body; 
+
+            writeFile(JSON.stringify(data, null, 2), () => {
+                res.status(200).send('new data inserted');
+            });
+        }, true);
+    });
+
+    app.put('/data', (req, res) => {
+        readFile(data => {
+            let jsonDataset = JSON.parse(data)
+            let keys = Object.keys(jsonDataset);
+            let randomNum = keys[Math.floor(keys.length*Math.random())]
+            data[randomNum] = req.body;
+
+            writeFile(JSON.stringify(data, null, 2), () =>{
+                res.status(200).send(`data key:${randomNum} updated`);
+            });
+        }, true);
+    });
+
+    app.delete('/data', (req, res) => {
+        readFile(data => {
+            let jsonDataset = JSON.parse(data)
+            let keys = Object.keys(jsonDataset);
+            let randomNum = keys[Math.floor(keys.length*Math.random())]
+            delete data[randomNum];
+
+            writeFile(JSON.stringify(data, null, 2), () =>{
+                res.status(200).send(`data key:${randomNum} removed`);
+            })
+
+        }, true);
+    })
 }
 module.exports = jsonCrud;
